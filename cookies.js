@@ -26,4 +26,4 @@ function deleteAllCookies() {
     }
 }
 
-server = "http://174.138.101.187:3000";
+server = "https://clc.ix.tc";
