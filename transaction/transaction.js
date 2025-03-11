@@ -34,6 +34,7 @@ let transactionId = null;
 async function prepareTransaction() {
     try {
         ge("val").disabled = true;
+        ge("send").disabled = true;
         ge("receiveCoin").style.display = "none";
         ge("prepareButton").disabled = true;
         const amount = ge("val").value;
@@ -143,6 +144,7 @@ async function send() {
     setCookie("coins", JSON.stringify(coins));
     await updateBalance();
     ge("status").innerText = "Successfully sent coin to: " + receiver;
+    setTimeout(() => document.location.href = '/wallet', 2000);
 }
 
 setInterval(updateBalance, 10000);
