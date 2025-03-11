@@ -1,0 +1,42 @@
+#all {
+    margin: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 30px;
+}
+
+#add {
+    width: calc(100% - 20px);
+    border: var(--sbg) solid 2px;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    height: 100%;
+    flex-grow: 1;
+}
+
+#add > div > h2 {
+    white-space: nowrap; /* Prevents wrapping of the h2 text */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#add > div {
+    width: calc(50% - 40px);
+    aspect-ratio: 1.5;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 30px;
+}
+
+@media (max-width: 768px) {
+    #add > div {
+        width: 100%; /* Set width to 100% when wrapping occurs */
+    }
+}

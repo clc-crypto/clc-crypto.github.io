@@ -1,0 +1,264 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+:root {
+    --bg: white;
+    --text: #3C3C3C;
+    --text-light: #b6b6b6;
+    --primary: #93c645;
+    --primary-shadow: #7da63f;
+    --bad: #d34b4b;
+    --bad-shadow: #a13030;
+    --good: #61b159;
+    --good-shadow: #4b8c44;
+    --sbg: #E5E5E5;
+    --sbg-shadow: #d5d5d5;
+    --sbg-shadow-darker: #c5c5c5;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #171d20;
+        --text: #eaecef;
+        --text-light: #80888f;
+        --sbg: #37464F;
+        --sbg-shadow: #313f47;
+        --sbg-shadow-darker: #29343a;
+    }
+}
+
+body {
+    background: var(--bg);
+}
+
+h1, h2, h3, h4, h5, h6, p, button, label, input, select {
+    color: var(--text);
+}
+
+/* button */
+button, label, input, select {
+    font-size: 1.1em;
+}
+
+button {
+    height: 40px;
+    color: white;
+    background: var(--primary);
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+    transition: box-shadow ease-out 0.03s, transform ease-out 0.03s;
+    transform: translateY(-8px);
+    box-shadow: 0 8px 0 0 var(--primary-shadow);
+}
+
+button:focus {
+    transform: translateY(0);
+    box-shadow: 0 0 0 0 var(--primary);
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.badButton {
+    background: var(--bad);
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+    transition: box-shadow ease-out 0.03s, transform ease-out 0.03s;
+    transform: translateY(-8px);
+    box-shadow: 0 8px 0 0 var(--bad-shadow);
+}
+
+.badButton:active {
+    transform: translateY(0);
+    box-shadow: 0 0 0 0 var(--bad-shadow);
+}
+
+.badButton:hover {
+    cursor: pointer;
+}
+
+.lightButton {
+    background: var(--sbg);
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+    transition: box-shadow ease-out 0.03s, transform ease-out 0.03s;
+    transform: translateY(-8px);
+    box-shadow: 0 8px 0 0 var(--sbg-shadow);
+}
+
+.lightButton:active {
+    transform: translateY(0);
+    box-shadow: 0 0 0 0 var(--sbg-shadow);
+}
+
+.lightButton:hover {
+    cursor: pointer;
+}
+
+input:not([type="checkbox"]) {
+    border: none;
+    border-bottom: 2px solid var(--primary);
+    padding: 8px 0;
+    width: 100%;
+    outline: none;
+    background: none;
+}
+
+/* label */
+label:not(.checkLabel) {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    transition: 0.2s ease;
+    text-wrap: nowrap;
+}
+
+input:not([type="checkbox"]):focus + label:not(.checkLabel),
+input:not([type="checkbox"]):not(:placeholder-shown) + label:not(.checkLabel) {
+    top: -10px;
+    left: 0;
+    transform: translateY(0);
+    font-size: 0.9em;
+    color: var(--primary);
+    z-index: -1;
+}
+
+label:not(.checkLabel):hover {
+    cursor: text;
+}
+
+/* checkbox */
+input[type="checkbox"]:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+input[type="checkbox"] {
+    margin: 5px 0;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #333;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.checkLabel {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    gap: 10px;
+}
+
+/* navbar */
+#navbar {
+    top: 0;
+    left: 0;
+    width: calc(100vw - 20px);
+    height: 60px;
+    border-bottom: solid var(--sbg) 2px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    position: absolute;
+    background: var(--bg);
+    z-index: 1000;
+    gap: 20px;
+}
+
+#navbar h1 {
+    transition: scale ease-out 0.1s;
+}
+
+#navbar h1:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    scale: 1.05;
+}
+
+hr {
+    border: 2px solid var(--primary);
+    border-radius: 1px;
+}
+
+/* Dropdown Styles */
+select {
+    font-size: 1.1em;
+    color: var(--text);
+    border: none;
+    border-bottom: 2px solid var(--primary);
+    padding: 8px 0;
+    width: 100%;
+    outline: none;
+    background: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: relative;
+}
+
+
+select option {
+    background: var(--sbg);
+}
+
+/* Dropdown arrow */
+select::-ms-expand {
+    display: none; /* Hide default dropdown arrow in IE */
+}
+
+select:hover {
+    cursor: pointer;
+}
+
+/* Label styles for select */
+label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    font-size: 1em;
+    color: var(--text-light);
+    transition: top 0.2s ease, left 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+}
+
+a {
+    color: var(--text);
+}
+
+b {
+    font-weight: 900;
+}
+
+.footer {
+    width: calc(100% - 60px);
+    border-top: var(--sbg) solid 2px;
+    padding: 10px 30px;
+}
+
+.footer p, a {
+    color: var(--text-light);
+}
