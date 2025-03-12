@@ -169,6 +169,7 @@ ge("send").onsubmit = event => {
 
 ge("receive").onsubmit = event => {
     event.preventDefault();
+    if (!confirm("Please do not leave this website until you receive your funds!")) return;
     const EC = elliptic.ec;
     const ec = new EC('secp256k1');
     document.querySelector("#receive > button").disabled = true;
@@ -183,14 +184,15 @@ ge("receive").onsubmit = event => {
 
     let done = false;
 
+    coins[cid] = key.getPrivate().toString("hex");
+    setCookie("coins", JSON.stringify(coins));
+
     setInterval(async () => {
         if (done) return;
         const data = await ((await fetch(server + "/coin/" + cid)).json());
         if (data.message) return;
         if (data.coin.transactions[data.coin.transactions.length - 1].holder === pKey) {
             done = true;
-            coins[cid] = key.getPrivate().toString("hex");
-            setCookie("coins", JSON.stringify(coins));
             await updateBalance();
 
             ge("wait").style.color = "var(--primary)";
