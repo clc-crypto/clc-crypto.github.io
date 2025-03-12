@@ -5,7 +5,7 @@
     <title>Solfinder - Coin List</title>
     <link rel="icon" href="/favicon.png" type="image/png" />
     <link rel="stylesheet" href="../general.css">
-    <link rel="stylesheet" href="addWallet.css">
+    <link rel="stylesheet" href="login.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,707;1,14..32,707&family=Space+Grotesk:wght@700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
@@ -29,19 +29,19 @@
     <h1 onclick="document.location.href = '/'">CLC Wallet</h1>
 </div><br><br><br>
 <div id="all">
-    <h1>Add a new $CLC wallet</h1>
+    <h1>Log in or create a $CLC wallet</h1>
     <div id="add">
         <div>
             <h2>Create new Wallet</h2>
-            <p>Create a new wallet stored locally on your computer. Encrypted via a password.</p>
+            <p>Create a new wallet stored on our servers. It's encrypted via a password, so we will not have any access to your funds. your password never leaves your computer.</p>
             <br>
             <button onclick="ge('create').style.display = ''; ge('import').style.display = 'none'; scrollToElement('next')">Create</button>
         </div>
         <div>
-            <h2>Import Wallet</h2>
-            <p>Import a previously created wallet from your computer. Browse your files and select the `.wallet` to import from</p>
+            <h2>Log In</h2>
+            <p>Log in to your online wallet using your token and password.</p>
             <br>
-            <button onclick="ge('create').style.display = 'none'; ge('import').style.display = ''; scrollToElement('next')">Import</button>
+            <button onclick="ge('create').style.display = 'none'; ge('import').style.display = ''; scrollToElement('next')">Log In</button>
         </div>
     </div>
     <div id="next">
@@ -59,20 +59,27 @@
         </div>
     </div>
     <div id="import" style="display: none">
-        <h1>Import Your Wallet</h1>
+        <h1>Log in to Your Wallet</h1>
         <br><br>
         <div style="position: relative">
-            <input id="passwdImport" type="password" placeholder=" " oninput="ge('importBtn').style.display = ge('passwdImport').value === '' ? 'none' : ''">
-            <label for="passwdImport">Password</label><br>
+            <input id="token" type="text" placeholder=" ">
+            <label for="token">Wallet token</label><br>
+        </div>
+        <br><br>
+        <div style="position: relative">
+            <input id="passwdLogIn" type="password" placeholder=" " oninput="ge('logInBtn').style.display = ge('passwdLogIn').value === '' ? 'none' : ''">
+            <label for="passwdLogIn">Password</label><br>
         </div>
         <br>
-        <button id="importBtn" style="display: none" onclick="importWallet()">Import Wallet</button>
+        <button id="logInBtn" style="display: none" onclick="loginToWallet()">Log In</button>
+        <br>
+        <p id="logInError" style="color: var(--bad)"></p>
     </div>
 </div>
 
 <script src="../buttonfix.js"></script>
 <script src="../cookies.js"></script>
 <script src="../footer.js"></script>
-<script src="addWallet.js"></script>
+<script src="login.js"></script>
 </body>
 </html>

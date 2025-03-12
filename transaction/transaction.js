@@ -1,8 +1,12 @@
 import elliptic from 'https://cdn.jsdelivr.net/npm/elliptic@6.6.1/+esm';
 
-if (!getCookie("coins")) document.location.href = "/addWallet";
+if (!getCookie("password")) document.location.href = "/login";
 
-const coins = JSON.parse(getCookie("coins"));
+let coins = null;
+loadWallet().then(c => {
+    coins = c;
+    updateBalance().then();
+});
 
 let loadAnimationDone = false;
 
@@ -13,7 +17,7 @@ async function updateBalance() {
         bal += data.coin.val;
         if (!loadAnimationDone) ge("balanceDisplay").innerText = bal;
     }
-    if (loadAnimationDone) ge("balanceDisplay").innerText = bal;
+    ge("balanceDisplay").innerText = bal;
     loadAnimationDone = true;
     ge("val").onchange = event => {
         event.target.value = Math.max(0, Math.min(bal, event.target.value));
@@ -56,7 +60,7 @@ async function prepareTransaction() {
                 if (coin.coin.val === 0) {
                     console.log("Empty coin #" + coin.id + ", removing from wallet permanently");
                     delete coins[coin.id];
-                    setCookie("coins", JSON.stringify(coins));
+                    saveWallet(coins);
                     continue;
                 }
                 ge("status").innerText = "Merging coin #" + coin.id + " and " + iterCoinsDownloaded[i + 1].id + " ...";
@@ -72,7 +76,7 @@ async function prepareTransaction() {
                 iterCoinsDownloaded[i + 1].coin.val += coin.coin.val;
                 console.log("Merged coin #" + coin.id + ", removing from wallet permanently");
                 delete coins[coin.id];
-                setCookie("coins", JSON.stringify(coins));
+                saveWallet(coins);
             } else if (coin.coin.val >= amount) {
                 if (coin.coin.val !== amount) {
                     // ledger length
@@ -102,7 +106,7 @@ async function prepareTransaction() {
                     }
 
                     coins[length] = newKey.getPrivate().toString("hex");
-                    setCookie("coins", JSON.stringify(coins));
+                    saveWallet(coins);
 
                     ge("cid").innerText = length;
                     transactionId = length;
@@ -141,15 +145,13 @@ async function send() {
         return;
     }
     delete coins[cid];
-    setCookie("coins", JSON.stringify(coins));
+    saveWallet(coins);
     await updateBalance();
     ge("status").innerText = "Successfully sent coin to: " + receiver;
     setTimeout(() => document.location.href = '/wallet', 2000);
 }
 
 setInterval(updateBalance, 10000);
-
-updateBalance().then();
 
 ge("receiveCoin").onclick = () => {
     ge("receiveCoin").style.display = "none";
@@ -185,7 +187,7 @@ ge("receive").onsubmit = event => {
     let done = false;
 
     coins[cid] = key.getPrivate().toString("hex");
-    setCookie("coins", JSON.stringify(coins));
+    saveWallet(coins);
 
     setInterval(async () => {
         if (done) return;

@@ -1,7 +1,10 @@
-if (!getCookie("coins")) document.location.href = "/addWallet";
+if (!getCookie("password")) document.location.href = "/login";
 
-const coins = JSON.parse(getCookie("coins"));
-
+let coins = null;
+loadWallet().then(c => {
+    coins = c;
+    updateBalance().then();
+})
 let loadAnimationDone = false;
 
 async function updateBalance() {
@@ -11,7 +14,7 @@ async function updateBalance() {
         bal += data.coin.val;
         if (!loadAnimationDone) ge("balanceDisplay").innerText = bal;
     }
-    if (loadAnimationDone) ge("balanceDisplay").innerText = bal;
+    ge("balanceDisplay").innerText = bal;
     loadAnimationDone = true;
     return bal;
 }
@@ -43,7 +46,7 @@ async function importCoins() {
             }
             coins[file.name.replace(".coin", "")] = await readFileAsync(file);
         }
-        setCookie("coins", JSON.stringify(coins));
+        saveWallet(coins);
         await updateBalance();
     });
 
@@ -51,5 +54,3 @@ async function importCoins() {
 }
 
 setInterval(updateBalance, 10000);
-
-updateBalance().then();

@@ -22,6 +22,7 @@
 
         const ge = id => document.getElementById(id);
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
 <div id="navbar" style="position: fixed">
@@ -33,7 +34,7 @@
     <div id="balance">
         <div>
             <p style="color: var(--text-light); font-size: 0.7em;">Balance</p>
-            <h1 style="font-size: 3em;"><span id="balanceDisplay" style="font-weight: 900">0</span> <span style="font-weight: 400">CLC</span></h1>
+            <h1 style="font-size: 3em;"><span id="balanceDisplay" style="font-weight: 900">---</span> <span style="font-weight: 400">CLC</span></h1>
         </div>
     </div>
     <div id="operations">
