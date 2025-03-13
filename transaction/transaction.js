@@ -169,11 +169,18 @@ ge("send").onsubmit = event => {
     send();
 }
 
-ge("receive").onsubmit = event => {
+ge("receive").onsubmit = async event => {
     event.preventDefault();
     if (!confirm("Please do not leave this website until you receive your funds!")) return;
     const EC = elliptic.ec;
     const ec = new EC('secp256k1');
+
+    const cid = parseInt(ge("transId").value);
+
+    if ((await ((await fetch(server + "/coin/" + cid)).json())).error) {
+        return;
+    }
+
     document.querySelector("#receive > button").disabled = true;
 
     const key = ec.genKeyPair();
@@ -182,13 +189,10 @@ ge("receive").onsubmit = event => {
     ge("copy").style.display = "";
     ge("wait").style.display = "";
 
-    const cid = parseInt(ge("transId").value);
-
     let done = false;
 
     coins[cid] = key.getPrivate().toString("hex");
     saveWallet(coins);
-
     setInterval(async () => {
         if (done) return;
         const data = await ((await fetch(server + "/coin/" + cid)).json());
