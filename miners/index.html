@@ -1,0 +1,68 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CLC Miner Monitor</title>
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="../general.css">
+    <link rel="stylesheet" href="miners.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,707;1,14..32,707&family=Space+Grotesk:wght@700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+        function scrollToElement(te) {
+            const element = document.getElementById(te);
+            const offset = 80; // Change this to your desired offset
+
+            window.scrollTo({
+                top: element.getBoundingClientRect().top + window.pageYOffset - offset,
+                behavior: 'smooth'
+            });
+        }
+
+        const ge = id => document.getElementById(id);
+    </script>
+</head>
+<body>
+<div id="navbar" style="position: fixed">
+    <h1 onclick="document.location.href = '/'">CLC Wallet</h1>
+</div><br><br><br>
+<div id="all">
+    <h1>Keep track of your <span style="color: var(--primary)">$CLC</span> miners like never before!</h1>
+    <br>
+    <div id="generalData">
+        <p>Keep track of all of your miners in one place!</p>
+        <p>Check your miners speed <span style="color: var(--primary)">live!</span></p>
+        <p>Keep track of your miners <span style="color: var(--primary)">progress!</span></p>
+    </div>
+    <form onsubmit="event.preventDefault(); startMonitoring()">
+        <div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 30px;">
+            <label style="all: unset; color: var(--text)" for="user">Enter user</label>
+            <input style="all: unset; font-size: 2em; width: min(300px, 100%); text-align: center; border-bottom: var(--text) solid 2px; border-radius: 2px; padding: 10px; color: var(--primary);" id="user" type="text" placeholder="..." autofocus required>
+        </div>
+        <br>
+        <div style="display: flex; align-items: center; flex-direction: column">
+            <button type="submit" style="width: min(300px, 100%)">Monitor</button>
+        </div>
+    </form>
+    <br><br>
+    <p style="display: none; color: var(--bad)" id="error"></p>
+    <div id="stats" style="display: none">
+        <h2>Your miners live stats</h2>
+        <br>
+        <div id="statsData">
+            <h3>Total mined during session: <span id="mined" style="color: var(--primary); font-weight: 900"></span> CLC</h3>
+            <h3>Live miner hashrate: <span id="speed" style="color: var(--primary); font-weight: 900"></span></h3>
+            <h3>Live miner progress: <span id="progress" style="color: var(--primary);"></span></h3>
+            <h3 style="color: var(--text-light)">Last reported <span id="refreshed"></span></h3>
+        </div>
+    </div>
+</div>
+
+<script src="../buttonfix.js"></script>
+<script src="../cookies.js"></script>
+<script src="../footer.js"></script>
+<script src="miners.js"></script>
+</body>
+</html>

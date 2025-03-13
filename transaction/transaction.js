@@ -85,6 +85,7 @@ async function prepareTransaction() {
                     // split coin
                     ge("status").innerText = "Splitting coin #" + coin.id;
                     const key = ec.keyFromPrivate(coins[coin.id]);
+                    console.log(length + " 1 " + amount)
                     const signHash = await sha256(length + " 1 " + amount);
                     const sign = key.sign(signHash).toDER("hex");
                     const data = await (await fetch(server + "/split?origin=" + coin.id + "&target=" + length + "&sign=" + sign + "&vol=" + amount)).json();
