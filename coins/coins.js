@@ -36,8 +36,18 @@ loadWallet().then(c => {
             privKey.style.color = "var(--text-light)";
             privKey.className = "privKey";
             privKey.onclick = () => {
-                privKey.innerText = coins[id];
+                privKey.innerHTML = coins[id] + ` <span style="color: var(--text-light)">Click to copy</span>`;
                 privKey.style.color = "";
+                privKey.onclick = () => {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = coins[id];
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    privKey.innerHTML = coins[id] + ` <span style="color: var(--text-light)">Copied!</span>`;
+                    setTimeout(() => privKey.innerHTML = coins[id] + ` <span style="color: var(--text-light)">Click to copy</span>`, 1000);
+                }
             }
 
             cE.appendChild(privKey);
