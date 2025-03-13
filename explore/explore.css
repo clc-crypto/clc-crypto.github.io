@@ -1,0 +1,12 @@
+#all {
+    padding: 30px;
+}
+
+#generalData {
+    padding: 30px 20px;
+    border-left: var(--sbg) solid 6px;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

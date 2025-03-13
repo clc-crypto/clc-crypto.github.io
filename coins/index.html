@@ -1,0 +1,53 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CLC Wallet</title>
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="../general.css">
+    <link rel="stylesheet" href="coins.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,707;1,14..32,707&family=Space+Grotesk:wght@700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <script>
+        function scrollToElement(te) {
+            const element = document.getElementById(te);
+            const offset = 80; // Change this to your desired offset
+
+            window.scrollTo({
+                top: element.getBoundingClientRect().top + window.pageYOffset - offset,
+                behavior: 'smooth'
+            });
+        }
+
+        const ge = id => document.getElementById(id);
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+<div id="navbar" style="position: fixed">
+    <h1 onclick="document.location.href = '/'">CLC Wallet</h1>
+</div>
+<br><br><br>
+
+<div id="all">
+    <div id="balance">
+        <div>
+            <p style="color: var(--text-light); font-size: 0.7em;">Balance</p>
+            <h1 style="font-size: 3em;"><span id="balanceDisplay" style="font-weight: 900">---</span> <span style="font-weight: 400">CLC</span></h1>
+        </div>
+    </div>
+    <div id="operations">
+        <h2>Your coins</h2>
+        <div id="coins">
+
+        </div>
+    </div>
+</div>
+
+<script src="../buttonfix.js"></script>
+<script src="../cookies.js"></script>
+<script src="../footer.js"></script>
+<script type="module" src="coins.js"></script>
+</body>
+</html>

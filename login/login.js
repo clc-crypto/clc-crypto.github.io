@@ -2,7 +2,7 @@
 function createWallet() {
     setCookie("password", ge("passwd").value);
 
-    fetch(apiServer + "/register?wallet=" + CryptoJS.AES.encrypt("{}", ge("passwd").value)).then(res => res.json()).then(data => {
+    fetch(apiServer + "/register?wallet=" + CryptoJS.AES.encrypt("{}", ge("passwd").value).toString()).then(res => res.json()).then(data => {
         alert("This is your wallet token: " + data.token + " Write it down somewhere safe, you will need it to log in the next time!");
         setCookie("token", data.token);
         document.location.href = "/wallet";

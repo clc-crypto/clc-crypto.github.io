@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CLC Coin Explorer</title>
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="../general.css">
+    <link rel="stylesheet" href="explore.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,707;1,14..32,707&family=Space+Grotesk:wght@700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+        function scrollToElement(te) {
+            const element = document.getElementById(te);
+            const offset = 80; // Change this to your desired offset
+
+            window.scrollTo({
+                top: element.getBoundingClientRect().top + window.pageYOffset - offset,
+                behavior: 'smooth'
+            });
+        }
+
+        const ge = id => document.getElementById(id);
+    </script>
+</head>
+<body>
+<div id="navbar" style="position: fixed">
+    <h1 onclick="document.location.href = '/'">CLC Wallet</h1>
+</div><br><br><br>
+<div id="all">
+    <h1>Explore <span style="color: var(--primary)">$CLC</span> coins like never before!</h1>
+    <br>
+    <div id="generalData">
+        <p>Verify the validity of any <span style="color: var(--primary)">$CLC</span> coin!</p>
+        <p>Explore the ground-breaking <span style="color: var(--primary)">proof-of-ownership</span> technology!</p>
+        <p>Keep track of any mined coins!</p>
+    </div>
+    <form onsubmit="event.preventDefault(); document.location.href = '/coin?id=' + ge('id').value">
+        <div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 30px;">
+            <label style="all: unset; color: var(--text)" for="id">Enter coin ID</label>
+            <input style="all: unset; font-size: 3em; width: min(300px, 100%); text-align: center; border-bottom: var(--text) solid 2px; border-radius: 2px; padding: 10px; color: var(--primary);" id="id" type="number" step="1" placeholder="0" autofocus required>
+        </div>
+        <br>
+        <div style="display: flex; align-items: center; flex-direction: column">
+            <button type="submit" style="width: min(300px, 100%)">Explore</button>
+        </div>
+    </form>
+    <br><br>
+    <h3 style="text-align: center; font-weight: 900; color: var(--text-light)">OR</h3>
+    <br><br>
+    <button onclick="randomCoin()">Open a Random Coin</button>
+</div>
+
+<script src="../buttonfix.js"></script>
+<script src="../cookies.js"></script>
+<script src="../footer.js"></script>
+<script src="explore.js"></script>
+</body>
+</html>

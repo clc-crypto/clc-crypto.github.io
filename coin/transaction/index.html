@@ -1,0 +1,53 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CLC Coin Explorer</title>
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="../../general.css">
+    <link rel="stylesheet" href="transaction.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,707;1,14..32,707&family=Space+Grotesk:wght@700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+        function scrollToElement(te) {
+            const element = document.getElementById(te);
+            const offset = 80; // Change this to your desired offset
+
+            window.scrollTo({
+                top: element.getBoundingClientRect().top + window.pageYOffset - offset,
+                behavior: 'smooth'
+            });
+        }
+
+        const ge = id => document.getElementById(id);
+    </script>
+</head>
+<body>
+<div id="navbar" style="position: fixed">
+    <h1 onclick="document.location.href = '/'">CLC Wallet</h1>
+</div><br><br><br>
+<div id="all">
+    <h1>Transaction on coin <span id="id" style="color: var(--primary)"></span></h1>
+    <br>
+    <div id="generalData">
+        <h3>New holder: <span style="color: var(--primary)" id="holder"></span></h3>
+        <h3>Transaction signature: <span style="color: var(--primary)" id="signature"></span></h3>
+    </div>
+    <br><br>
+    <h2 style="color: var(--text-light)">Merge Data</h2>
+    <br>
+    <div id="mergeData" style="display: none">
+        <h3>Merge <span style="color: var(--primary)" id="mergeCoin"></span></h3>
+        <h3>Volume: <span style="font-weight: 900" id="vol"></span></h3>
+        <h3 id="mergeSignAll">Merge signature: <span style="color: var(--primary)" id="mergeSign"></span></h3>
+    </div>
+</div>
+
+<script src="../../buttonfix.js"></script>
+<script src="../../cookies.js"></script>
+<script src="../../footer.js"></script>
+<script src="transaction.js"></script>
+</body>
+</html>

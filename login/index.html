@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Solfinder - Coin List</title>
+    <title>CLC Wallet</title>
     <link rel="icon" href="/favicon.png" type="image/png" />
     <link rel="stylesheet" href="../general.css">
     <link rel="stylesheet" href="login.css">
@@ -45,7 +45,7 @@
         </div>
     </div>
     <div id="next">
-        <div id="create" style="display: none">
+        <form id="create" style="display: none" onsubmit="event.preventDefault(); createWallet()">
             <h1>Wallet Creation</h1>
             <br><br>
             <div style="position: relative">
@@ -55,26 +55,26 @@
             <br>
             <p style="color: var(--text-light)">By clicking `Create Wallet` you understand that forgetting this password mean's complete loss to all of your funds, which we are not responsible for.</p>
             <br>
-            <button id="createBtn" style="display: none" onclick="createWallet()">Create Wallet</button>
-        </div>
+            <button id="createBtn" style="display: none" type="submit">Create Wallet</button>
+        </form>
     </div>
-    <div id="import" style="display: none">
+    <form id="import" style="display: none" onsubmit="event.preventDefault(); loginToWallet()">
         <h1>Log in to Your Wallet</h1>
         <br><br>
         <div style="position: relative">
-            <input id="token" type="text" placeholder=" ">
+            <input id="token" type="text" placeholder=" " pattern=".{10}" maxlength="10" autocomplete="off" autocapitalize="off" required autofocus>
             <label for="token">Wallet token</label><br>
         </div>
         <br><br>
         <div style="position: relative">
-            <input id="passwdLogIn" type="password" placeholder=" " oninput="ge('logInBtn').style.display = ge('passwdLogIn').value === '' ? 'none' : ''">
+            <input id="passwdLogIn" type="password" placeholder=" " oninput="ge('logInBtn').style.display = ge('passwdLogIn').value === '' ? 'none' : ''" required>
             <label for="passwdLogIn">Password</label><br>
         </div>
         <br>
-        <button id="logInBtn" style="display: none" onclick="loginToWallet()">Log In</button>
+        <button id="logInBtn" style="display: none" type="submit">Log In</button>
         <br>
         <p id="logInError" style="color: var(--bad)"></p>
-    </div>
+    </form>
 </div>
 
 <script src="../buttonfix.js"></script>
