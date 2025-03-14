@@ -33,12 +33,12 @@ async function updateBalance() {
             }
 
             bal += data.coin.val;
-            if (!loadAnimationDone) ge("balanceDisplay").innerText = bal;
+            if (!loadAnimationDone) ge("balanceDisplay").innerText = Math.round(bal * 1000) / 1000;
         } catch (e) {
             console.log(e.message)
         }
     }
-    ge("balanceDisplay").innerText = bal;
+    ge("balanceDisplay").innerText = Math.round(bal * 1000) / 1000;
     loadAnimationDone = true;
     return bal;
 }

@@ -1,4 +1,3 @@
-
 function createWallet() {
     setCookie("password", ge("passwd").value);
 

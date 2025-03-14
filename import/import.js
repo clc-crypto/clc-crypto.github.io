@@ -12,11 +12,11 @@ async function updateBalance() {
     for (const coinId of Object.keys(coins)) {
         const data = await (await fetch(server + "/coin/" + coinId)).json();
         bal += data.coin.val;
-        if (!loadAnimationDone) ge("balanceDisplay").innerText = bal;
+        if (!loadAnimationDone) ge("balanceDisplay").innerText = Math.round(bal * 1000) / 100;
     }
-    ge("balanceDisplay").innerText = bal;
+    ge("balanceDisplay").innerText = Math.round(bal * 1000) / 1000;
     loadAnimationDone = true;
-    return bal;
+    return Math.round(bal * 1000) / 1000;
 }
 
 function readFileAsync(file) {

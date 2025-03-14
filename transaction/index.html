@@ -92,6 +92,8 @@
             <h4 style='color: var(--primary); text-wrap: wrap; width: 90vw; overflow: clip; text-overflow: ellipsis' id="address"></h4>
             <br>
             <p id="wait" style="color: var(--text-light); display: none">Waiting to receive...</p>
+            <br>
+            <button id="refresh"></button>
             <script>
                 function copyAddress() {
                     navigator.clipboard.writeText(ge("address").innerText).then(() => {

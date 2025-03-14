@@ -15,9 +15,9 @@ async function updateBalance() {
     for (const coinId of Object.keys(coins)) {
         const data = await (await fetch(server + "/coin/" + coinId)).json();
         bal += data.coin.val;
-        if (!loadAnimationDone) ge("balanceDisplay").innerText = bal;
+        if (!loadAnimationDone) ge("balanceDisplay").innerText = Math.round(bal * 1000) / 1000;
     }
-    ge("balanceDisplay").innerText = bal;
+    ge("balanceDisplay").innerText = Math.round(bal * 1000) / 1000;
     loadAnimationDone = true;
     ge("val").onchange = event => {
         event.target.value = Math.max(0, Math.min(bal, event.target.value));
@@ -170,6 +170,23 @@ ge("send").onsubmit = event => {
     send();
 }
 
+ge("refresh").onclick = refresh;
+
+async function refresh() {
+    const data = await ((await fetch(server + "/coin/" + cid)).json());
+    if (data.message) return;
+    if (data.coin.transactions[data.coin.transactions.length - 1].holder === pKey) {
+        await updateBalance();
+
+        ge("wait").style.color = "var(--primary)";
+        ge("wait").innerText = "Transaction successful!";
+
+        setTimeout(() => document.location.href = '/wallet', 2000);
+        return true;
+    }
+    return false;
+}
+
 ge("receive").onsubmit = async event => {
     event.preventDefault();
     if (!confirm("Please do not leave this website until you receive your funds!")) return;
@@ -189,6 +206,7 @@ ge("receive").onsubmit = async event => {
     ge("address").innerText = pKey;
     ge("copy").style.display = "";
     ge("wait").style.display = "";
+    ge("refresh").style.display = "";
 
     let done = false;
 
@@ -196,16 +214,6 @@ ge("receive").onsubmit = async event => {
     saveWallet(coins);
     setInterval(async () => {
         if (done) return;
-        const data = await ((await fetch(server + "/coin/" + cid)).json());
-        if (data.message) return;
-        if (data.coin.transactions[data.coin.transactions.length - 1].holder === pKey) {
-            done = true;
-            await updateBalance();
-
-            ge("wait").style.color = "var(--primary)";
-            ge("wait").innerText = "Transaction successful!";
-
-            setTimeout(() => document.location.href = '/wallet', 2000);
-        }
+        done = await refresh();
     }, 1000);
 }
