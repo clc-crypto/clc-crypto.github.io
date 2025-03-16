@@ -152,8 +152,6 @@ async function send() {
     setTimeout(() => document.location.href = '/wallet', 2000);
 }
 
-setInterval(updateBalance, 10000);
-
 ge("receiveCoin").onclick = () => {
     ge("receiveCoin").style.display = "none";
     ge("prepare").style.display = "none"
@@ -170,7 +168,10 @@ ge("send").onsubmit = event => {
     send();
 }
 
-ge("refresh").onclick = refresh;
+ge("refresh").onclick = event => {
+    event.preventDefault();
+    refresh();
+};
 
 async function refresh() {
     const data = await ((await fetch(server + "/coin/" + cid)).json());
@@ -180,7 +181,7 @@ async function refresh() {
 
         ge("wait").style.color = "var(--primary)";
         ge("wait").innerText = "Transaction successful!";
-
+        await updateBalance();
         setTimeout(() => document.location.href = '/wallet', 2000);
         return true;
     }
