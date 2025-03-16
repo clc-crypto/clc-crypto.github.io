@@ -156,6 +156,7 @@ ge("receiveCoin").onclick = () => {
     ge("receiveCoin").style.display = "none";
     ge("prepare").style.display = "none"
     ge("receive").style.display = ""
+    ge("refresh").style.display = ""
 }
 
 ge("prepare").onsubmit = event => {

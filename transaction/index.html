@@ -93,7 +93,7 @@
             <br>
             <p id="wait" style="color: var(--text-light); display: none">Waiting to receive...</p>
             <br>
-            <button id="refresh">Refresh</button>
+            <button id="refresh" style="display: none">Refresh</button>
             <script>
                 function copyAddress() {
                     navigator.clipboard.writeText(ge("address").innerText).then(() => {
