@@ -156,7 +156,6 @@ ge("receiveCoin").onclick = () => {
     ge("receiveCoin").style.display = "none";
     ge("prepare").style.display = "none"
     ge("receive").style.display = ""
-    ge("refresh").style.display = ""
 }
 
 ge("prepare").onsubmit = event => {
@@ -191,6 +190,7 @@ async function refresh() {
 
 ge("receive").onsubmit = async event => {
     event.preventDefault();
+    ge("refresh").style.display = ""
     if (!confirm("Please do not leave this website until you receive your funds!")) return;
     const EC = elliptic.ec;
     const ec = new EC('secp256k1');
