@@ -78,7 +78,7 @@ fetch(server + "/coin/" + id).then(res => res.json()).then(data => {
             mergeGeneralDetails.className = "mergeGeneralDetails";
 
             const vol = document.createElement("h3");
-            vol.innerHTML = `<span style='color: ${trans.transformation.origin !== undefined ? "var(--good)" : "var(--bad)"}; font-weight: 900;'>${trans.transformation.vol > 0 ? "+" : ""}${trans.transformation.vol}</span> CLC`;
+            vol.innerHTML = `<span style='color: ${trans.transformation.origin !== undefined ? "var(--good)" : "var(--bad)"}; font-weight: 900;'>${trans.transformation.vol > 0 ? "+" : ""}${Math.round(trans.transformation.vol * 1000) / 1000}</span> CLC`;
             mergeGeneralDetails.appendChild(vol);
 
             const mergeCoin = document.createElement("h3");
@@ -98,7 +98,7 @@ fetch(server + "/coin/" + id).then(res => res.json()).then(data => {
         if (val === null) {
             val = coin.val;
         }
-        ge("val" + i).innerText = val;
+        ge("val" + i).innerText = Math.round(val * 1000) / 1000;
         if (val === 0) ge("val" + i).style.color = "var(--bad)";
         else ge("val" + i).style.color = "var(--primary)";
         if (trans.transformation) val -= trans.transformation.vol;
