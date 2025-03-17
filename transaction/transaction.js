@@ -160,6 +160,10 @@ ge("receiveCoin").onclick = () => {
 
 ge("prepare").onsubmit = event => {
     event.preventDefault();
+    window.addEventListener("beforeunload", function (event) {
+        event.preventDefault();
+        event.returnValue = "Leaving the website at this state might result in loss of funds!";
+    });
     prepareTransaction();
 }
 
@@ -189,9 +193,12 @@ async function refresh() {
 }
 
 ge("receive").onsubmit = async event => {
+    window.addEventListener("beforeunload", function (event) {
+        event.preventDefault();
+        event.returnValue = "Leaving the website at this state might result in loss of funds!";
+    });
     event.preventDefault();
     ge("refresh").style.display = ""
-    if (!confirm("Please do not leave this website until you receive your funds!")) return;
     const EC = elliptic.ec;
     const ec = new EC('secp256k1');
 
