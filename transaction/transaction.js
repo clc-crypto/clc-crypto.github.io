@@ -8,6 +8,11 @@ loadWallet().then(c => {
     updateBalance().then();
 });
 
+function changeAlert(event) {
+    event.preventDefault();
+    event.returnValue = "Leaving the website at this state might result in loss of funds!";
+}
+
 let loadAnimationDone = false;
 
 async function updateBalance() {
@@ -149,6 +154,7 @@ async function send() {
     saveWallet(coins);
     await updateBalance();
     ge("status").innerText = "Successfully sent coin to: " + receiver;
+    window.removeEventListener("beforeunload", changeAlert);
     setTimeout(() => document.location.href = '/wallet', 2000);
 }
 
@@ -160,10 +166,7 @@ ge("receiveCoin").onclick = () => {
 
 ge("prepare").onsubmit = event => {
     event.preventDefault();
-    window.addEventListener("beforeunload", function (event) {
-        event.preventDefault();
-        event.returnValue = "Leaving the website at this state might result in loss of funds!";
-    });
+    window.addEventListener("beforeunload", changeAlert);
     prepareTransaction();
 }
 
@@ -177,7 +180,11 @@ ge("refresh").onclick = event => {
     refresh();
 };
 
+let pKey = null;
+
 async function refresh() {
+    if (!pKey) alert("Something went wrong!");
+    const cid = parseInt(ge("transId").value);
     const data = await ((await fetch(server + "/coin/" + cid)).json());
     if (data.message) return;
     if (data.coin.transactions[data.coin.transactions.length - 1].holder === pKey) {
@@ -186,6 +193,7 @@ async function refresh() {
         ge("wait").style.color = "var(--primary)";
         ge("wait").innerText = "Transaction successful!";
         await updateBalance();
+        window.removeEventListener("beforeunload", changeAlert);
         setTimeout(() => document.location.href = '/wallet', 2000);
         return true;
     }
@@ -193,10 +201,7 @@ async function refresh() {
 }
 
 ge("receive").onsubmit = async event => {
-    window.addEventListener("beforeunload", function (event) {
-        event.preventDefault();
-        event.returnValue = "Leaving the website at this state might result in loss of funds!";
-    });
+    window.addEventListener("beforeunload", changeAlert);
     event.preventDefault();
     ge("refresh").style.display = ""
     const EC = elliptic.ec;
@@ -211,8 +216,9 @@ ge("receive").onsubmit = async event => {
     document.querySelector("#receive > button").disabled = true;
 
     const key = ec.genKeyPair();
-    const pKey = key.getPublic().encode("hex", false);
-    ge("address").innerText = pKey;
+    const pubKey = key.getPublic().encode("hex", false);
+    pKey = pubKey;
+    ge("address").innerText = pubKey;
     ge("copy").style.display = "";
     ge("wait").style.display = "";
     ge("refresh").style.display = "";
