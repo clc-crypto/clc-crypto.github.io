@@ -1,4 +1,5 @@
-import elliptic from 'https://cdn.jsdelivr.net/npm/elliptic@6.6.1/+esm';
+import * as secp from 'https://esm.sh/noble-secp256k1';
+import { bytesToHex, hexToBytes } from 'https://esm.sh/@noble/hashes/utils';
 
 if (!getCookie("password")) document.location.href = "/login";
 
@@ -11,6 +12,15 @@ loadWallet().then(c => {
 function changeAlert(event) {
     event.preventDefault();
     event.returnValue = "Leaving the website at this state might result in loss of funds!";
+}
+
+function newPrivate() {
+    let result = '';
+    const characters = '0123456789abcdef';
+    for (let i = 0; i < 64; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
 }
 
 let loadAnimationDone = false;
@@ -55,9 +65,6 @@ async function prepareTransaction() {
         coinsDownloaded.sort((a, b) => b.coin.val - a.coin.val);
         console.log(coinsDownloaded);
 
-        const EC = elliptic.ec;
-        const ec = new EC('secp256k1');
-
         let i = 0;
         const iterCoinsDownloaded = [...coinsDownloaded];
         for (const coin of iterCoinsDownloaded) {
@@ -69,9 +76,8 @@ async function prepareTransaction() {
                     continue;
                 }
                 ge("status").innerText = "Merging coin #" + coin.id + " and " + iterCoinsDownloaded[i + 1].id + " ...";
-                const key = ec.keyFromPrivate(coins[coin.id]);
                 const signHash = await sha256(iterCoinsDownloaded[i + 1].id + " " + (iterCoinsDownloaded[i + 1].coin.transactions.length) + " " + coin.coin.val);
-                const sign = key.sign(signHash).toDER("hex");
+                const sign = await secp.sign(signHash, coins[coin.id]);
                 const data = await (await fetch(server + "/merge?origin=" + coin.id + "&target=" + iterCoinsDownloaded[i + 1].id + "&sign=" + sign + "&vol=" + coin.coin.val)).json();
                 if (!data.message) {
                     ge("status").innerText = "An unexpected error occurred while merging: " + data.error;
@@ -89,10 +95,9 @@ async function prepareTransaction() {
 
                     // split coin
                     ge("status").innerText = "Splitting coin #" + coin.id;
-                    const key = ec.keyFromPrivate(coins[coin.id]);
                     console.log(length + " 1 " + amount)
                     const signHash = await sha256(length + " 1 " + amount);
-                    const sign = key.sign(signHash).toDER("hex");
+                    const sign = await secp.sign(signHash, coins[coin.id]);
                     const data = await (await fetch(server + "/split?origin=" + coin.id + "&target=" + length + "&sign=" + sign + "&vol=" + amount)).json();
                     if (!data.message) {
                         ge("status").innerText = "An unexpected error occurred while splitting: " + data.error;
@@ -100,18 +105,18 @@ async function prepareTransaction() {
                         return;
                     }
 
-                    const newKey = ec.genKeyPair();
+                    const newKey = newPrivate();
 
-                    const cycleSign = key.sign(await sha256(newKey.getPublic().encode("hex", false))).toDER("hex");
+                    const cycleSign = await secp.sign(await sha256(secp.getPublicKey(newKey)), coins[coin.id]);
                     // cycle the keys for the new coin (this one the user keeps)
-                    const dataCycle = await (await fetch(server + "/transaction?cid=" + length + "&sign=" + cycleSign + "&newholder=" + newKey.getPublic().encode("hex", false))).json();
+                    const dataCycle = await (await fetch(server + "/transaction?cid=" + length + "&sign=" + cycleSign + "&newholder=" + secp.getPublicKey(newKey))).json();
                     if (!dataCycle.message) {
-                        ge("status").innerText = "An unexpected error occurred while splitting (cycling coin): " + data.error;
+                        ge("status").innerText = "An unexpected error occurred while splitting (cycling coin): " + dataCycle.message;
                         ge("status").style.color = "var(--bad)";
                         return;
                     }
 
-                    coins[length] = newKey.getPrivate().toString("hex");
+                    coins[length] = newKey;
                     saveWallet(coins);
 
                     ge("cid").innerText = length;
@@ -136,14 +141,10 @@ async function prepareTransaction() {
 }
 
 async function send() {
-    const EC = elliptic.ec;
-    const ec = new EC('secp256k1');
-
     const cid = transactionId;
     const receiver = ge("receiver").value;
-    const key = ec.keyFromPrivate(coins[cid]);
-    const sign = key.sign(await sha256(receiver)).toDER("hex");
-    // cycle teh keys for the new coin (this one the user keeps)
+    const sign = await secp.sign(await sha256(receiver), coins[cid]);
+    // cycle the keys for the new coin (this one the user keeps)
     const dataCycle = await (await fetch(server + "/transaction?cid=" + cid + "&sign=" + sign + "&newholder=" + receiver)).json();
     if (!dataCycle.message) {
         ge("status").innerText = "An unexpected error occurred while sending coin: " + data.error;
@@ -155,7 +156,7 @@ async function send() {
     await updateBalance();
     ge("status").innerText = "Successfully sent coin to: " + receiver;
     window.removeEventListener("beforeunload", changeAlert);
-    setTimeout(() => document.location.href = '/wallet', 2000);
+    // setTimeout(() => document.location.href = '/wallet', 2000);
 }
 
 ge("receiveCoin").onclick = () => {
@@ -194,7 +195,7 @@ async function refresh() {
         ge("wait").innerText = "Transaction successful!";
         await updateBalance();
         window.removeEventListener("beforeunload", changeAlert);
-        setTimeout(() => document.location.href = '/wallet', 2000);
+        // setTimeout(() => document.location.href = '/wallet', 2000);
         return true;
     }
     return false;
@@ -204,9 +205,6 @@ ge("receive").onsubmit = async event => {
     window.addEventListener("beforeunload", changeAlert);
     event.preventDefault();
     ge("refresh").style.display = ""
-    const EC = elliptic.ec;
-    const ec = new EC('secp256k1');
-
     const cid = parseInt(ge("transId").value);
 
     if ((await ((await fetch(server + "/coin/" + cid)).json())).error) {
@@ -215,17 +213,17 @@ ge("receive").onsubmit = async event => {
 
     document.querySelector("#receive > button").disabled = true;
 
-    const key = ec.genKeyPair();
-    const pubKey = key.getPublic().encode("hex", false);
-    pKey = pubKey;
-    ge("address").innerText = pubKey;
+    const key = secp.utils.randomPrivateKey();
+    const pubKey = secp.getPublicKey(key, true);
+    pKey = bytesToHex(pubKey);
+    ge("address").innerText = pKey;
     ge("copy").style.display = "";
     ge("wait").style.display = "";
     ge("refresh").style.display = "";
 
     let done = false;
 
-    coins[cid] = key.getPrivate().toString("hex");
+    coins[cid] = bytesToHex(key);
     saveWallet(coins);
     setInterval(async () => {
         if (done) return;
