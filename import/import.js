@@ -24,7 +24,7 @@ function readFileAsync(file) {
         const reader = new FileReader();
         reader.onload = () => resolve(reader.result);
         reader.onerror = reject;
-        reader.readAsText(file); // Change to readAsArrayBuffer, readAsDataURL, or readAsBinaryString if needed
+        reader.readAsText(file);
     });
 }
 
