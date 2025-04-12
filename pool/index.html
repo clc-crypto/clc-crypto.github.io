@@ -1,0 +1,73 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CLC Miner Monitor</title>
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="../general.css">
+    <link rel="stylesheet" href="pool.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,707;1,14..32,707&family=Space+Grotesk:wght@700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+        function scrollToElement(te) {
+            const element = document.getElementById(te);
+            const offset = 80; // Change this to your desired offset
+
+            window.scrollTo({
+                top: element.getBoundingClientRect().top + window.pageYOffset - offset,
+                behavior: 'smooth'
+            });
+        }
+
+        const ge = id => document.getElementById(id);
+    </script>
+</head>
+<body>
+<div id="navbar" style="position: fixed">
+    <h1 onclick="document.location.href = '/'">CLC Wallet</h1>
+</div><br><br><br>
+<div id="all">
+    <h1>Keep track of your <span style="color: var(--primary)">$CLC</span> pool rewards here!</h1>
+    <br>
+    <div id="generalData">
+        <p>Track how much your miners have made live!</p>
+        <p>Payout your rewards quickly!</p>
+    </div>
+    <br>
+    <h2>Your pool secret</h2>
+    <br>
+    <div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+        <input id="poolSecret" autocomplete="off" placeholder=" " type="password">
+        <label for="poolSecret">Pool Secret</label>
+    </div>
+    <br>
+
+    <div id="operationsWrapper">
+        <form class="operationPanel" onsubmit="checkRewards(event)">
+            <h3>Check your rewards</h3>
+            <button type="submit">Check Rewards</button>
+            <h1 style="text-align: center" id="total">---</h1>
+        </form>
+
+        <form class="operationPanel" onsubmit="payout(event)">
+            <h3>Payout your rewards</h3>
+            <div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 20px; width: 100%">
+                <input id="receiver" autocomplete="off" required placeholder=" " type="text" pattern=".{130}">
+                <label for="receiver">Transaction address</label>
+            </div>
+            <button type="submit">Payout</button>
+            <h2 style="display: none" id="payoutAddr"></h2>
+        </form>
+    </div><br>
+
+    <p style="color: var(--bad)" id="error"></p>
+</div>
+
+<script src="../buttonfix.js"></script>
+<script src="../cookies.js"></script>
+<script src="../footer.js"></script>
+<script src="pool.js"></script>
+</body>
+</html>

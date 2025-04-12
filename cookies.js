@@ -26,7 +26,7 @@ function deleteAllCookies() {
     }
 }
 
-server = "https://clc.ix.tc";
+server = "http://localhost:7070";
 apiServer = "https://clc.ix.tc:3000";
 
 function saveWallet(coins) {

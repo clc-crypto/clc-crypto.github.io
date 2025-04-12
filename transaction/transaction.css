@@ -37,3 +37,13 @@
 #copy:hover {
     cursor: pointer;
 }
+
+#pregen {
+    color: var(--text-light);
+    text-decoration: underline;
+}
+
+#pregen:hover {
+    text-decoration: none;
+    cursor: pointer;
+}

@@ -156,7 +156,7 @@ async function send() {
     await updateBalance();
     ge("status").innerText = "Successfully sent coin to: " + receiver;
     window.removeEventListener("beforeunload", changeAlert);
-    // setTimeout(() => document.location.href = '/wallet', 2000);
+    setTimeout(() => document.location.href = '/wallet', 2000);
 }
 
 ge("receiveCoin").onclick = () => {
@@ -195,16 +195,19 @@ async function refresh() {
         ge("wait").innerText = "Transaction successful!";
         await updateBalance();
         window.removeEventListener("beforeunload", changeAlert);
-        // setTimeout(() => document.location.href = '/wallet', 2000);
+        setTimeout(() => document.location.href = '/wallet', 2000);
         return true;
     }
     return false;
 }
 
+let pregenAddr = null;
+
 ge("receive").onsubmit = async event => {
     window.addEventListener("beforeunload", changeAlert);
     event.preventDefault();
-    ge("refresh").style.display = ""
+    ge("refresh").style.display = "";
+    ge("pregen").style.display = "none";
     const cid = parseInt(ge("transId").value);
 
     if ((await ((await fetch(server + "/coin/" + cid)).json())).error) {
@@ -213,8 +216,8 @@ ge("receive").onsubmit = async event => {
 
     document.querySelector("#receive > button").disabled = true;
 
-    const key = secp.utils.randomPrivateKey();
-    const pubKey = secp.getPublicKey(key, true);
+    const key = pregenAddr ? pregenAddr : secp.utils.randomPrivateKey();
+    const pubKey = secp.getPublicKey(key, false);
     pKey = bytesToHex(pubKey);
     ge("address").innerText = pKey;
     ge("copy").style.display = "";
@@ -229,4 +232,13 @@ ge("receive").onsubmit = async event => {
         if (done) return;
         done = await refresh();
     }, 1000);
-}
+};
+
+ge("pregen").onclick = async () => {
+    pregenAddr = secp.utils.randomPrivateKey();
+    const pubKey = secp.getPublicKey(pregenAddr, false);
+    pKey = bytesToHex(pubKey);
+    ge("address").innerText = pKey;
+    ge("generateAddrBtn").innerText = "Receive";
+    ge("copy").style.display = "";
+};
