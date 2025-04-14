@@ -24,57 +24,12 @@
     }
 }
 
-/* smooth reveal text */
-
 .revealTextAnimate {
     display: flex;
     align-items: flex-end;
     gap: 2px;
-}
-
-.revealTextAnimate *:not(div) {
-    overflow: hidden;
-    text-overflow: fade;
-    animation: reveal 1.5s ease-out forwards, moveText 0.2s ease-out 1.5s forwards;
-    text-wrap: nowrap;
-}
-
-.revealTextAnimate div {
-    margin-bottom: 4px;
-    width: 20px;
-    height: 20px;
-    background: var(--primary);
-    z-index: 100;
-    animation: pulse 0.5s linear infinite, fadeOutDot 0.3s ease-out 1.2s forwards; /* pulse speed, fadeout speed, delay */
-}
-
-@keyframes reveal {
-    0% {
-        width: 0;
-    }
-
-    100% {
-        width: 100%;
-    }
-}
-
-@keyframes pulse {
-    0% {
-        opacity: 100%;
-    }
-    50% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 100%;
-    }
-}
-
-@keyframes moveText {
-    100% {
-        transform: translateX(22px); /* Translate the text horizontally */
-        text-wrap: wrap;
-    }
+    margin: 20px;
+    text-align: center;
 }
 
 @keyframes fadeOutDot {
