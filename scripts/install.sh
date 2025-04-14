@@ -56,5 +56,6 @@ echo "Enter your wallet token (if you do not yet have a wallet, create one at ht
 read tkn
 clc-wallet set-wallet $tkn
 echo -e "\nDONE SETTING UP YOUR WALLET!\n"
-echo -e "\n\nSuccessfully installed all clc tools."
+echo -e "\n\nSuccessfully installed all clc tools, go to the clc directory,\ncd clc"
+cd ..
 rm install.sh
