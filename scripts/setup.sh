@@ -36,5 +36,3 @@ fi
 echo -e "\n\nDONE SETTING UP CLC MINER!\n\n"
 echo "Config file:"
 cat clcminer.toml
-
-echo -e "\nRUN THE MINER WITH:\n./mine.sh"
