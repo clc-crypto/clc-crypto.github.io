@@ -50,12 +50,3 @@ echo "Downloading setup script..."
 curl -o setup.sh https://clc-crypto.github.io/scripts/setup.sh
 chmod +x setup.sh
 ./setup.sh
-
-echo -e "\n\nSETTING UP YOUR WALLET\n"
-echo "Enter your wallet token (if you do not yet have a wallet, create one at https://clc-crypto.github.io/wallet/)"
-read tkn
-clc-wallet set-wallet $tkn
-echo -e "\nDONE SETTING UP YOUR WALLET!\n"
-echo -e "\n\nSuccessfully installed all clc tools, go to the clc directory,\ncd clc"
-cd ..
-rm install.sh
