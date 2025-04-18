@@ -1,4 +1,4 @@
-const poolServer = "https://clc.ix.tc:6066";
+const poolServer = "https://pool.clc.ix.tc";
 
 function checkRewards(event) {
     event.preventDefault();
