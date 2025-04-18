@@ -181,3 +181,16 @@
     flex-direction: column;
     gap: 5px;
 }
+
+#quickInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    border-bottom: var(--sbg) solid 2px;
+    padding: 15px 30px;
+}
+
+#quickInfo span {
+    font-weight: 900;
+}

@@ -31,7 +31,11 @@
     <div class="revealTextAnimate"><h3><b>CLC</b> is a centralized ledger cryptocurrency, powered by brand new chain-of-ownership technology, allowing for a centralized ledger, whilst keeping it safer then any cryptocurrency to this day. Learn more about the technical details <a href="/whitepaper.pdf">here.</a></h3><div></div></div>
     <button style="width: 60%" onclick="scrollToElement('learn'); this.blur();">Learn More</button>
 </div>
-
+<div id="quickInfo">
+    <h1>Live Stats</h1>
+    <h2>Ledger Height: <span id="infoHeight" style="color: var(--primary)">---</span></h2>
+    <h2>CLCs in circulation: <span id="infoCirculation" style="color: var(--primary)">---</span></h2>
+</div>
 <div id="learn">
     <h2>CLC Wallet</h2>
     <p>Store all of your precious crypto on our safe, and easy to use wallet. Are you a $CLC miner? Our wallet allows you to quickly import your mined coins!</p>
@@ -58,5 +62,6 @@
 
 <script src="buttonfix.js"></script>
 <script src="footer.js"></script>
+<script src="index.js"></script>
 </body>
 </html>
