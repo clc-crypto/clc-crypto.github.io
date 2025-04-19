@@ -1,4 +1,13 @@
 if (!getCookie("password")) document.location.href = "/login";
+import * as secp from 'https://esm.sh/noble-secp256k1';
+
+async function sha256(message) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(message);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+}
 
 let coins = null;
 loadWallet().then(c => {
@@ -49,8 +58,26 @@ loadWallet().then(c => {
                     setTimeout(() => privKey.innerHTML = coins[id] + ` <span style="color: var(--text-light)">Click to copy</span>`, 1000);
                 }
             }
-
             cE.appendChild(privKey);
+
+            if (coinData.paidFee !== undefined && !coinData.paidFee) {
+            // if (true) {
+                const devFeePay = document.createElement("p");
+                devFeePay.innerHTML = "Click to pay dev fees";
+                devFeePay.style.color = "var(--text-light)";
+                devFeePay.className = "privKey";
+                devFeePay.onclick = async () => {
+                    const vol = coinData.val * 0.021;
+                    const devCoinHeight = (await (await fetch(server + "/coin/" + devCoin)).json()).coin.transactions.length;
+                    const sign = await secp.sign(await sha256(`${devCoin} ${devCoinHeight} ${vol}`), coins[id]);
+                    fetch(server + `/merge?target=${devCoin}&origin=${id}&sign=${sign}&vol=${vol}`).then(res => res.json()).then(data => {
+                        if (data.message === "success") document.location.href = "/coins";
+                        else alert("Could not pay fees! Error: " + data.error);
+                    });
+                }
+
+                cE.appendChild(devFeePay);
+            }
 
             ge("coins").appendChild(cE);
         }
