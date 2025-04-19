@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CLC Crypto - Idea</title>
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="idea.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        function scrollToElement(te) {
+            const element = document.getElementById(te);
+            const offset = 80;
+            window.scrollTo({
+                top: element.getBoundingClientRect().top + window.pageYOffset - offset,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+    <script src="cookies.js"></script>
+</head>
+<body>
+<script src="idea.js"></script>
+<nav id="navbar" class="navbar">
+    <div class="navbar-container">
+        <h1 class="navbar-brand" onclick="document.location.href = '/'">CLC Crypto</h1>
+    </div>
+</nav>
+
+<section id="hero" class="hero-section">
+    <div class="hero-content">
+        <h1 class="hero-title">CLC Crypto</h1>
+        <div class="hero-text revealTextAnimate">
+            <h3><span class="highlight">CLC</span> is a centralized ledger cryptocurrency, powered by brand new chain-of-ownership technology, allowing for a centralized ledger, whilst keeping it safer than any cryptocurrency to this day.</h3>
+        </div>
+    </div>
+</section>
+
+<main id="content" class="main-content">
+    <div class="tile feature-tile" id="learn">
+        <h2 class="section-title">What is CLC?</h2>
+        <p class="feature-text">
+            <span class="highlight">CLC</span> (Centralized Ledger Cryptocurrency) is a revolutionary and <span class="highlight">brand-new approach</span> to cryptocurrency!
+            We asked ourselves the most important question: how can we make a currency that is <span class="highlight">secure, anonymous,
+                and not controlled by a single entity?</span> In response to this, we came up with a <span class="highlight">never-before-seen</span> approach:
+            we <span class="highlight">invented chain-of-ownership</span> technology. This is a direct replacement for blockchain.
+            Each coin has a holder and the coin's validity is proven via <span class="highlight">digital signatures</span> along a chain.
+            Anyone can verify that a coin hasn't been tampered with.
+        </p>
+    </div>
+
+    <div class="tile feature-tile">
+        <h2 class="section-title">Coin Market Supply</h2>
+        <p class="feature-text">
+            To gradually inject funds into a market in a controlled manner, we use PoW (Proof of Work).
+            Our PoW is based on cryptographic key pair generation:
+            <code class="code-block">H(PUB_KEY + SEED) < DIFF</code> must be satisfied for a coin to be valid.
+            Private keys stay local. Mined coins prove ownership via digital signatures.
+        </p>
+    </div>
+
+    <div class="tile feature-tile">
+        <h2 class="section-title">Hard Market Supply Cap</h2>
+        <p class="feature-text">
+            CLC is capped at 50 million. This is mathematically defined:
+            <code class="code-block">[-x / 1 000 000] + 50</code>
+            <br>It ensures decreasing issuance and ultimate cap.
+        </p>
+        <div class="chart-container">
+            <img src="chart.png" alt="Market Supply Chart" class="chart-image">
+        </div>
+    </div>
+
+    <div class="tile feature-tile">
+        <h2 class="section-title">Community on Discord</h2>
+        <p class="feature-text">
+            Our project is backed by our great community: <a href="https://discord.gg/FSkrWNfcP7" target="_blank" class="link-highlight">Join The Discord</a>
+        </p>
+    </div>
+
+    <div class="tile feature-tile">
+        <h2 class="section-title">Source Code</h2>
+        <p class="feature-text">
+            Our project is fully open source: <a href="https://github.com/clc-crypto" target="_blank" class="link-highlight">Check out Our Discord</a>
+        </p>
+    </div>
+</main>
+
+<script src="buttonfix.js"></script>
+<script src="footer.js"></script>
+</body>
+</html>
