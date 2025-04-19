@@ -215,6 +215,11 @@ body {
     box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
 }
 
+.feature-tile:active {
+    transform: translateY(-5px) translateZ(0);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+}
+
 .section-title {
     color: var(--primary-color);
     font-size: 2rem;
@@ -231,6 +236,7 @@ body {
     font-family: monospace;
     color: var(--primary-color);
     text-shadow: 0 0 5px var(--primary-color);
+    text-wrap: nowrap;
 }
 
 /* Link Styling */
