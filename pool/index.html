@@ -53,12 +53,17 @@
 
         <form class="operationPanel" onsubmit="payout(event)">
             <h3>Payout your rewards</h3>
+            <button type="submit">Payout</button>
+        </form>
+
+        <form class="operationPanel" onsubmit="finish(event)" id="finish" style="display: none">
+            <h3>Finish paying out your rewards</h3>
             <div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 20px; width: 100%">
                 <input id="receiver" autocomplete="off" required placeholder=" " type="text" pattern=".{130}">
                 <label for="receiver">Transaction address</label>
             </div>
             <button type="submit">Payout</button>
-            <h2 style="display: none" id="payoutAddr"></h2>
+            <h2 style="display: none" id="success">Success!</h2>
         </form>
     </div><br>
 

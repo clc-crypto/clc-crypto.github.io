@@ -16,16 +16,26 @@ function checkRewards(event) {
 function payout(event) {
     event.preventDefault();
     const ps = document.getElementById("poolSecret").value;
-    const addr = document.getElementById("receiver").value;
     if (ps === "") {
         document.getElementById("error").innerText = "please provide your pool secret";
         return;
     }
     fetch(poolServer + "/payout/" + ps + "?addr=" + addr).then(res => res.json()).then(data => {
         if (data.error) document.getElementById("error").innerText = data.error;
-        else {
-            document.getElementById("payoutAddr").innerHTML = "Transaction id #<span style='color: var(--primary)'>" + data.id + "</span>";
-            document.getElementById("payoutAddr").style.display = "";
-        }
+        if (!data.error || data.error !== "Already paid out your rewards, or you have not yet mined any.") document.getElementById("finish").style.display = "";
+    });
+}
+
+function finish(event) {
+    event.preventDefault();
+    const ps = document.getElementById("poolSecret").value;
+    const addr = document.getElementById("receiver").value;
+    if (ps === "") {
+        document.getElementById("error").innerText = "please provide your pool secret";
+        return;
+    }
+    fetch(poolServer + "/finish/" + ps + "?addr=" + addr).then(res => res.json()).then(data => {
+        if (data.error) document.getElementById("error").innerText = data.error;
+        else document.getElementById("success").style.display = "";
     });
 }
