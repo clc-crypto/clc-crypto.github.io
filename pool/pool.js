@@ -20,9 +20,10 @@ function payout(event) {
         document.getElementById("error").innerText = "please provide your pool secret";
         return;
     }
-    fetch(poolServer + "/payout/" + ps + "?addr=" + addr).then(res => res.json()).then(data => {
+    fetch(poolServer + "/payout/" + ps).then(res => res.json()).then(data => {
         if (data.error) document.getElementById("error").innerText = data.error;
         if (!data.error || data.error !== "Already paid out your rewards, or you have not yet mined any.") document.getElementById("finish").style.display = "";
+        if (!data.error) document.getElementById("transid").innerText = "Transaction ID: " + data.id;
     });
 }
 
