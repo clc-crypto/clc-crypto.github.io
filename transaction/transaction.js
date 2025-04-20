@@ -207,7 +207,6 @@ ge("receive").onsubmit = async event => {
     window.addEventListener("beforeunload", changeAlert);
     event.preventDefault();
     ge("refresh").style.display = "";
-    ge("pregen").style.display = "none";
     const cid = parseInt(ge("transId").value);
 
     if ((await ((await fetch(server + "/coin/" + cid)).json())).error) {
@@ -232,13 +231,4 @@ ge("receive").onsubmit = async event => {
         if (done) return;
         done = await refresh();
     }, 1000);
-};
-
-ge("pregen").onclick = async () => {
-    pregenAddr = secp.utils.randomPrivateKey();
-    const pubKey = secp.getPublicKey(pregenAddr, false);
-    pKey = bytesToHex(pubKey);
-    ge("address").innerText = pKey;
-    ge("generateAddrBtn").innerText = "Receive";
-    ge("copy").style.display = "";
 };
