@@ -18,6 +18,16 @@
             height: 100%;
             display: block;
         }
+        * {
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        /* Hide scrollbar for Webkit browsers (Chrome, Safari, etc.) */
+        *::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
     </style>
 </head>
 <body>
@@ -29,6 +39,8 @@
     const elements = [];
 
     async function fetchChildren(ip) {
+        if (ip.startsWith("http://")) ip = "https://api.allorigins.win/raw?url=" + ip;
+        console.log(ip)
         const res = await fetch(ip + "/mirrors");
         const data = await res.json();
         return data;
