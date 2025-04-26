@@ -1,0 +1,14 @@
+.link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 2px;
+}
+
+.node circle {
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.node circle:hover {
+    fill: #ff8c00;
+}
