@@ -39,7 +39,7 @@
     const elements = [];
 
     async function fetchChildren(ip) {
-        if (ip.startsWith("http://")) ip = "https://api.allorigins.win/raw?url=" + ip;
+        if (ip.startsWith("http://")) ip = "https://corsproxy.io/?" + ip;
         console.log(ip)
         const res = await fetch(ip + "/mirrors");
         const data = await res.json();
