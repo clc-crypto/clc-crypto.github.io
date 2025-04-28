@@ -26,8 +26,8 @@ function deleteAllCookies() {
     }
 }
 
-server = "https://master.centrix.fi";
-write_server = "https://master.centrix.fi";
+server = "https://clc.ix.tc";
+write_server = "https://clc.ix.tc";
 devCoin = 0;
 apiServer = "https://clc.ix.tc:3000";
 
