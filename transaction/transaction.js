@@ -99,7 +99,7 @@ async function prepareTransaction() {
                     const signHash = await sha256(length + " 1 " + amount);
                     const sign = await secp.sign(signHash, coins[coin.id]);
                     const data = await (await fetch(server + "/split?origin=" + coin.id + "&target=" + length + "&sign=" + sign + "&vol=" + amount)).json();
-                    if (!data.message) {
+                    if (data.error) {
                         ge("status").innerText = "An unexpected error occurred while splitting: " + data.error;
                         ge("status").style.color = "var(--bad)";
                         return;
