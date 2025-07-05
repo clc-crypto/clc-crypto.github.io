@@ -3,7 +3,7 @@ import requests, json
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 with open("exchange.json", "r") as f:
   bals: dict[str, float] = json.load(f)
@@ -38,4 +38,4 @@ def home():
   return {'message': 'fail'}
   
 if __name__ == '__main__':
-  app.run(debug=True)
+  app.run(debug=True, port=5050)
