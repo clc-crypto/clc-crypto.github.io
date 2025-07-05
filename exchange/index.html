@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLC to FLSS exchange</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/elliptic/6.5.4/elliptic.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+
+    form input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+    }
+
+    input[type="submit"],
+    button {
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    code {
+      display: block;
+      background: #f4f4f4;
+      padding: 10px;
+      word-break: break-word;
+    }
+
+    #gen_priv {
+      width: 100%;
+      padding: 10px;
+      background: #f4f4f4;
+      font-family: monospace;
+      font-size: 16px;
+      border: none;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Exchange your CLC for FLSS</h1>
+  <p>FLSS is the successor to CLC. It fixes all problems with CLC and packages them into a decentralized system.</p>
+  <h3>Exchange rate is 1:1</h3>
+
+  <h3>Instructions:</h3>
+  <p>
+    To exchange your CLC for FLSS, you have to burn them to a specified address. To do so:<br>
+    - Open the CLC Wallet (new or old, doesn't matter)<br>
+    - Click Send (or prepare new transaction)<br>
+    - Enter amount to exchange<br>
+    - <b>VERY IMPORTANT: COPY TRANSACTION ID AND ENTER IT HERE</b><br>
+    - Enter burn address.<br>
+    - Click send
+  </p>
+  <p>Burn address:</p>
+  <code>0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</code>
+
+  <h3>Fill out details:</h3>
+  <form style="display: flex; flex-direction: column; gap: 10px;">
+    <label for="id">Transaction ID obtained when burning:</label>
+    <input type="text" placeholder="TX #" name="id" id="id">
+    <label for="addr">Enter FLSS PUBLIC wallet address you will use when logging into any FLSS wallet (If you do not
+      have one, scroll down and generate one first):</label>
+    <input type="text" placeholder="0412822...." name="addr" id="addr">
+    <input type="submit" value="Exchange">
+    <p>You will receive your FLSS once mainnet, or testnet starts and you will be able to acccess them by the private
+      jey you generated below. You can exchange CLC </p>
+  </form>
+
+  <h2>FLSS WALLET GENERATOR</h2>
+
+  <button onclick="generateWallet()">Generate Wallet</button>
+  <p>
+    Public address (to exchange CLC for FLSS, or receive FLSS, once mainnet starts):<br>
+    <code id="gen_pub"></code>
+  </p>
+  <p>
+    Private key, DO NOT SHARE IT, write down in a safe place, or enter yours to see the public key:<br>
+    <input id="gen_priv" type="text" placeholder="Private key..." />
+  </p>
+
+  <script>
+    const EC = elliptic.ec;
+    const ec = new EC('secp256k1');
+
+    function generateWallet() {
+      const key = ec.genKeyPair();
+      const pub = key.getPublic('hex');
+      const priv = key.getPrivate('hex');
+
+      document.getElementById("gen_pub").textContent = pub;
+      document.getElementById("gen_priv").value = priv;
+
+      alert("Save the following private key, as you will need it to log in once FLSS mainnet starts. If you lose this you will not be able to access your funds.\n" + priv);
+    }
+
+    document.getElementById("gen_priv").addEventListener("input", function () {
+      const inputVal = this.value.trim();
+      try {
+        const key = ec.keyFromPrivate(inputVal, 'hex');
+        const pub = key.getPublic('hex');
+        document.getElementById("gen_pub").textContent = pub;
+      } catch (e) {
+        document.getElementById("gen_pub").textContent = '';
+      }
+    });
+
+    (async () => {
+      const params = new URLSearchParams(document.location.search);
+      if (params.get("id") && params.get("addr")) {
+        const res = await fetch(`https://master.centrix.fi:5000/exchange?id=${encodeURIComponent(params.get("id"))}&addr=${encodeURIComponent(params.get("addr"))}`)
+          .then(res => res.json())
+          .then(res => res.message);
+        if (res === "fail")
+          alert("Failed to exchange! Did you send the funds to the correct burn address and did you paste the correct TX id?");
+        else
+          alert("Success! Your funds will be given to you at the start of mainnet and testnet!");
+        document.location.href = "/exchange";
+      }
+    })();
+  </script>
+</body>
+
+</html>
